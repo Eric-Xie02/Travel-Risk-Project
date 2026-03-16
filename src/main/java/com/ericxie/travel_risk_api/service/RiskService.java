@@ -1,9 +1,7 @@
 package com.ericxie.travel_risk_api.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import com.ericxie.travel_risk_api.model.RiskEvaluateResponse;

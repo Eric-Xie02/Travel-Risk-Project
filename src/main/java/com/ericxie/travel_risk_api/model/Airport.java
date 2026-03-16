@@ -1,9 +1,13 @@
 package com.ericxie.travel_risk_api.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "airports")
+@Getter
+@Setter
 public class Airport {
 
     @Id
@@ -14,37 +18,4 @@ public class Airport {
     @Column(name = "iso_country")
     private String isoCountry;
     private String name;
-
-    public void setId(Long id){
-        this.id = id;
-    }
-
-    public Long getId(){
-        return id;
-    }
-
-    public void setIataCode(String iataCode){
-        this.iataCode = iataCode;
-    }
-
-    public String getIataCode(){
-        return iataCode;
-    }
-
-    public void setIsoCountry(String isoCountry){
-        this.isoCountry = isoCountry;
-    }
-
-    public String getIsoCountry(){
-        return isoCountry;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public String getName(){
-        return name;
-    }
-
 }
