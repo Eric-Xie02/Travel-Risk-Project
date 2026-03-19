@@ -14,6 +14,5 @@ public class CreateTripRequest {
     private String arrivalAirport;
     private List<String> layoverAirports;
     private LocalDate departureDate;
-    private Long userId;
     private List<String> flightNumber;
 }

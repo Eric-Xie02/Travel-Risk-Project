@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "trips")
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Trip {
 
     @Id
@@ -29,7 +31,9 @@ public class Trip {
     @ElementCollection
     private List<String> layoverAirports;
 
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     private int riskScore;
     private RiskLevel riskLevel;
 

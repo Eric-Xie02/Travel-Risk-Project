@@ -1,5 +1,7 @@
 package com.ericxie.travel_risk_api.service;
 
+import com.ericxie.travel_risk_api.exception.ResourceNotFoundException;
+import com.ericxie.travel_risk_api.exception.UnauthorizedAccessException;
 import com.ericxie.travel_risk_api.model.*;
 import com.ericxie.travel_risk_api.repository.TripRepository;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class TripService {
         this.riskService = riskService;
     }
 
-    public Trip createTrip(CreateTripRequest createTripRequest) {
+    public Trip createTrip(CreateTripRequest createTripRequest, User user) {
         Trip trip = new Trip();
 
         trip.setDepartureAirport(createTripRequest.getDepartureAirport());
@@ -25,15 +27,19 @@ public class TripService {
         trip.setDepartureDate(createTripRequest.getDepartureDate());
         trip.setFlightNumber(createTripRequest.getFlightNumber());
         trip.setLayoverAirports(createTripRequest.getLayoverAirports());
-        trip.setUserId(createTripRequest.getUserId());
+        trip.setUser(user);
 
         evaluateAndSetRisk(trip);
 
         return tripRepository.save(trip);
     }
 
-    public Trip updateTrip(Long tripId, UpdateTripRequest updateTripRequest) {
-        Trip trip = this.tripRepository.findById(tripId).orElseThrow();
+    public Trip updateTrip(Long tripId, UpdateTripRequest updateTripRequest, User user) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found"));
+        if (!trip.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedAccessException("This trip does not belong to you");
+        }
 
         if (updateTripRequest.getDepartureDate() != null) {
             trip.setDepartureDate(updateTripRequest.getDepartureDate());
@@ -60,16 +66,29 @@ public class TripService {
         return this.tripRepository.save(trip);
     }
 
-    public void deleteTrip(Long tripId) {
+    public void deleteTrip(Long tripId, User user) {
+
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found"));
+        if (!trip.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedAccessException("This trip does not belong to you");
+        }
+
         this.tripRepository.deleteById(tripId);
     }
 
-    public Trip getTripById(Long tripId) {
-        return this.tripRepository.findById(tripId).orElseThrow();
+    public Trip getTripById(Long tripId, User user) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip not found"));
+        if (!trip.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedAccessException("This trip does not belong to you");
+        }
+        return trip;
     }
 
-    public List<Trip> getUserTrips(Long userId) {
-        return this.tripRepository.findByUserId(userId);
+
+    public List<Trip> getUserTrips(User user) {
+        return this.tripRepository.findByUserId(user.getId());
     }
 
     private void evaluateAndSetRisk(Trip trip) {

@@ -14,14 +14,16 @@ public class AirportService {
         this.airportRepository = airportRepository;
     }
 
-    public String getCountryByIataCode(String iataCode){
+    public String getCountryByIataCode(String iataCode) {
 
         Airport airport = airportRepository.findByIataCode(iataCode);
 
-        if(airport == null){
+        if (airport == null) {
             throw new IllegalArgumentException("Can't find airport with matching iata code:" + iataCode);
         }
 
         return airport.getIsoCountry();
     }
+
+
 }
