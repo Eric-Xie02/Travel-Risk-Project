@@ -1,8 +1,8 @@
 package com.ericxie.travel_risk_api.service;
 
 import com.ericxie.travel_risk_api.exception.FlightNotFoundException;
-import com.ericxie.travel_risk_api.model.flight.AirlabsResponse;
-import com.ericxie.travel_risk_api.model.flight.FlightInfo;
+import com.ericxie.travel_risk_api.model.flight.AirlabsRoutesResponse;
+import com.ericxie.travel_risk_api.model.flight.RouteInfo;
 import com.ericxie.travel_risk_api.model.trip.CreateTripRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +24,7 @@ public class FlightService {
         this.restClient = RestClient.create();
     }
 
-    public CreateTripRequest buildTripFromFlights(List<String> flightNumbers) {
+    public CreateTripRequest buildTripFromFlights(List<String> flightNumbers, LocalDate departureDate) {
 
         if (flightNumbers == null || flightNumbers.isEmpty()) {
             throw new IllegalArgumentException("Flight numbers list cannot be empty");
@@ -39,7 +39,7 @@ public class FlightService {
 
         for (int i = 0; i < flightNumbers.size(); i++) {
             String flightNumber = flightNumbers.get(i).replace(" ", "").toUpperCase();
-            String url = "https://airlabs.co/api/v9/flight?flight_iata=" + flightNumber + "&api_key=" + key;
+            String url = "https://airlabs.co/api/v9/routes?flight_iata=" + flightNumber + "&api_key=" + key;
 
             try {
                 String response = restClient.get()
@@ -47,31 +47,37 @@ public class FlightService {
                         .retrieve()
                         .body(String.class);
 
-                AirlabsResponse airlabsResponse = objectMapper.readValue(response, AirlabsResponse.class);
-                FlightInfo flight = airlabsResponse.getResponse();
+                AirlabsRoutesResponse airlabsRoutesResponse = objectMapper.readValue(response, AirlabsRoutesResponse.class);
 
-                flightIataCodes.add(flight.getFlightIata());
+                if (airlabsRoutesResponse.getResponse() == null || airlabsRoutesResponse.getResponse().isEmpty()) {
+                    throw new FlightNotFoundException("Could not find flight: " + flightNumber);
+                }
+
+                RouteInfo route = airlabsRoutesResponse.getResponse().get(0);
+
+                flightIataCodes.add(route.getFlightIata());
 
                 if (i == 0) {
-                    createTripRequest.setDepartureAirport(flight.getDepIata());
-                    createTripRequest.setDepartureDate(LocalDate.parse(flight.getDepTime().substring(0, 10)));
+                    createTripRequest.setDepartureAirport(route.getDepIata());
+                    createTripRequest.setDepartureDate(departureDate);
                 }
 
                 if (i == flightNumbers.size() - 1) {
-                    createTripRequest.setArrivalAirport(flight.getArrIata());
+                    createTripRequest.setArrivalAirport(route.getArrIata());
                 }
 
                 if (i < flightNumbers.size() - 1) {
-                    layoverAirports.add(flight.getArrIata());
+                    layoverAirports.add(route.getArrIata());
                 }
 
-                // add departure airport if it differs from previous flight's arrival (ground transfer)
-                if (i > 0 && previousArrIata != null && !flight.getDepIata().equals(previousArrIata)) {
-                    layoverAirports.add(flight.getDepIata());
+                if (i > 0 && previousArrIata != null && !route.getDepIata().equals(previousArrIata)) {
+                    layoverAirports.add(route.getDepIata());
                 }
 
-                previousArrIata = flight.getArrIata();
+                previousArrIata = route.getArrIata();
 
+            } catch (FlightNotFoundException e) {
+                throw e;
             } catch (Exception e) {
                 System.err.println("Failed to fetch flight: " + e.getMessage());
                 throw new FlightNotFoundException("Could not find flight: " + flightNumber);

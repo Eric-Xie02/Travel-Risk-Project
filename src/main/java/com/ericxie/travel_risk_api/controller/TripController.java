@@ -71,7 +71,7 @@ public class TripController {
 
     @PostMapping("/flight")
     public ResponseEntity<Trip> createTripFromFlights(@RequestBody FlightTripRequest flightTripRequest) {
-        CreateTripRequest createTripRequest = flightService.buildTripFromFlights(flightTripRequest.getFlightNumbers());
+        CreateTripRequest createTripRequest = flightService.buildTripFromFlights(flightTripRequest.getFlightNumbers(), flightTripRequest.getDepartureDate());
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);
         Trip created = tripService.createTrip(createTripRequest, user);
