@@ -32,5 +32,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body(e.getMessage());
     }
 
+    @ExceptionHandler(FlightNotFoundException.class)
+    public ResponseEntity<String> handleFlightNotFound(FlightNotFoundException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
 
 }

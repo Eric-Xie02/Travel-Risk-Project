@@ -1,8 +1,5 @@
 package com.ericxie.travel_risk_api.service;
 
-import com.ericxie.travel_risk_api.exception.ResourceNotFoundException;
-import com.ericxie.travel_risk_api.exception.UnauthorizedAccessException;
-import com.ericxie.travel_risk_api.model.auth.User;
 import com.ericxie.travel_risk_api.model.news.NewsApiResponse;
 import com.ericxie.travel_risk_api.model.news.NewsArticle;
 import com.ericxie.travel_risk_api.model.trip.Trip;
