@@ -1,6 +1,6 @@
 package com.ericxie.travel_risk_api.service;
 
-import com.ericxie.travel_risk_api.model.TravelAdvisoryEntry;
+import com.ericxie.travel_risk_api.model.risk.TravelAdvisoryEntry;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -27,21 +27,21 @@ public class TravelAdvisoryService {
                     .body(String.class);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            advisoryEntries = objectMapper.readValue(response, new TypeReference<List<TravelAdvisoryEntry>>() {});
+            advisoryEntries = objectMapper.readValue(response, new TypeReference<List<TravelAdvisoryEntry>>() {
+            });
 
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Failed to fetch advisory data: " + e.getMessage());
             advisoryEntries = new ArrayList<>();
         }
     }
 
     //Returns advisory level from ISO code
-    public int getAdvisoryLevel(String isoCode){
+    public int getAdvisoryLevel(String isoCode) {
         //1. Get the fips code
         String fipsCode = FipsToIsoMapper.toFips(isoCode);
-        
+
         if (!advisoryEntries.isEmpty()) {
             System.out.println("First entry country code: " + advisoryEntries.get(0).getCountryCode());
         }

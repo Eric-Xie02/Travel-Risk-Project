@@ -1,17 +1,14 @@
-package com.ericxie.travel_risk_api.model;
+package com.ericxie.travel_risk_api.model.risk;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.List;
 
-@Getter
 @Setter
-public class UpdateTripRequest {
+@Getter
+public class RiskEvaluateRequest {
     private String departureAirport;
     private String arrivalAirport;
     private List<String> layoverAirports;
-    private LocalDate departureDate;
-    private List<String> flightNumber;
 }

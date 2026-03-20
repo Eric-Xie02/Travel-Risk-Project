@@ -12,6 +12,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(e.getMessage());
     }
 
+    @ExceptionHandler(AirportNotFoundException.class)
+    public ResponseEntity<String> handleAirportNotFound(AirportNotFoundException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException e) {
         return ResponseEntity.status(401).body(e.getMessage());
@@ -26,4 +31,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException e) {
         return ResponseEntity.status(404).body(e.getMessage());
     }
+
+
 }

@@ -1,4 +1,7 @@
 package com.ericxie.travel_risk_api.exception;
 
-public class AirportNotFoundException {
+public class AirportNotFoundException extends RuntimeException {
+    public AirportNotFoundException(String message) {
+        super(message);
+    }
 }

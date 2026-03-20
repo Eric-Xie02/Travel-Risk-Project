@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import com.ericxie.travel_risk_api.model.RiskEvaluateResponse;
-import com.ericxie.travel_risk_api.model.RiskEvaluateRequest;
-import com.ericxie.travel_risk_api.model.RiskLevel;
+import com.ericxie.travel_risk_api.model.risk.RiskEvaluateResponse;
+import com.ericxie.travel_risk_api.model.risk.RiskEvaluateRequest;
+import com.ericxie.travel_risk_api.model.risk.RiskLevel;
 
 @Service
 public class RiskService {
@@ -24,7 +24,7 @@ public class RiskService {
 
         List<String> factors = new ArrayList<>();
 
-        String departureCountry = this.airportService.getCountryByIataCode(request.getDepartureAirport());
+        String departureCountry = this.airportService.getCountryIsoByIataCode(request.getDepartureAirport());
         factors.add(departureCountry);
         int departureCountryLevel = travelAdvisoryService.getAdvisoryLevel(departureCountry);
         factors.add(String.valueOf(departureCountryLevel));
@@ -34,7 +34,7 @@ public class RiskService {
                 .getLayoverAirports()
                 .stream()
                 .map(iataCode -> {
-                    String countryCode = this.airportService.getCountryByIataCode(iataCode);
+                    String countryCode = this.airportService.getCountryIsoByIataCode(iataCode);
                     factors.add(countryCode);
                     return countryCode;
                 })
@@ -50,7 +50,7 @@ public class RiskService {
                 })
                 .toList();
 
-        String arrivalCountry = this.airportService.getCountryByIataCode(request.getArrivalAirport());
+        String arrivalCountry = this.airportService.getCountryIsoByIataCode(request.getArrivalAirport());
         factors.add(arrivalCountry);
         int arrivalCountryLevel = travelAdvisoryService.getAdvisoryLevel(arrivalCountry);
         factors.add(String.valueOf(arrivalCountryLevel));

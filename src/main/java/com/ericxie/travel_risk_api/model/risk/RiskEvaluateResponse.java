@@ -1,4 +1,4 @@
-package com.ericxie.travel_risk_api.model;
+package com.ericxie.travel_risk_api.model.risk;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,9 +1,9 @@
 package com.ericxie.travel_risk_api.controller;
 
-import com.ericxie.travel_risk_api.model.CreateTripRequest;
-import com.ericxie.travel_risk_api.model.Trip;
-import com.ericxie.travel_risk_api.model.UpdateTripRequest;
-import com.ericxie.travel_risk_api.model.User;
+import com.ericxie.travel_risk_api.model.trip.CreateTripRequest;
+import com.ericxie.travel_risk_api.model.trip.Trip;
+import com.ericxie.travel_risk_api.model.trip.UpdateTripRequest;
+import com.ericxie.travel_risk_api.model.auth.User;
 import com.ericxie.travel_risk_api.repository.UserRepository;
 import com.ericxie.travel_risk_api.service.TripService;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.ericxie.travel_risk_api.model;
+package com.ericxie.travel_risk_api.model.risk;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

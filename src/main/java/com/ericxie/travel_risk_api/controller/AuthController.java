@@ -1,8 +1,8 @@
 package com.ericxie.travel_risk_api.controller;
 
-import com.ericxie.travel_risk_api.model.AuthResponse;
-import com.ericxie.travel_risk_api.model.LoginRequest;
-import com.ericxie.travel_risk_api.model.RegisterRequest;
+import com.ericxie.travel_risk_api.model.auth.AuthResponse;
+import com.ericxie.travel_risk_api.model.auth.LoginRequest;
+import com.ericxie.travel_risk_api.model.auth.RegisterRequest;
 import com.ericxie.travel_risk_api.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,7 +1,7 @@
 package com.ericxie.travel_risk_api.controller;
 
-import com.ericxie.travel_risk_api.model.RiskEvaluateResponse;
-import com.ericxie.travel_risk_api.model.RiskEvaluateRequest;
+import com.ericxie.travel_risk_api.model.risk.RiskEvaluateResponse;
+import com.ericxie.travel_risk_api.model.risk.RiskEvaluateRequest;
 import com.ericxie.travel_risk_api.service.RiskService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ public class RiskController {
     }
 
     @PostMapping("/evaluate")
-    public RiskEvaluateResponse getRisk(@RequestBody RiskEvaluateRequest request){
-       return riskService.getRisk(request);
+    public RiskEvaluateResponse getRisk(@RequestBody RiskEvaluateRequest request) {
+        return riskService.getRisk(request);
     }
 }

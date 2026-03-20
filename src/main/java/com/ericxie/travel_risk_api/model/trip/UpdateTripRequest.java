@@ -1,5 +1,4 @@
-package com.ericxie.travel_risk_api.model;
-
+package com.ericxie.travel_risk_api.model.trip;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CreateTripRequest {
+public class UpdateTripRequest {
     private String departureAirport;
     private String arrivalAirport;
     private List<String> layoverAirports;

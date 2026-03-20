@@ -2,16 +2,15 @@ package com.ericxie.travel_risk_api.service;
 
 import com.ericxie.travel_risk_api.exception.InvalidCredentialsException;
 import com.ericxie.travel_risk_api.exception.UsernameAlreadyExistsException;
-import com.ericxie.travel_risk_api.model.AuthResponse;
-import com.ericxie.travel_risk_api.model.LoginRequest;
-import com.ericxie.travel_risk_api.model.RegisterRequest;
-import com.ericxie.travel_risk_api.model.User;
+import com.ericxie.travel_risk_api.model.auth.AuthResponse;
+import com.ericxie.travel_risk_api.model.auth.LoginRequest;
+import com.ericxie.travel_risk_api.model.auth.RegisterRequest;
+import com.ericxie.travel_risk_api.model.auth.User;
 import com.ericxie.travel_risk_api.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

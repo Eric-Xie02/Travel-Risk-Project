@@ -1,5 +1,7 @@
-package com.ericxie.travel_risk_api.model;
+package com.ericxie.travel_risk_api.model.trip;
 
+import com.ericxie.travel_risk_api.model.risk.RiskLevel;
+import com.ericxie.travel_risk_api.model.auth.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

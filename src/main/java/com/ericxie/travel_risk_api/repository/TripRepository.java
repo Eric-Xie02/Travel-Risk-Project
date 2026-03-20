@@ -1,6 +1,6 @@
 package com.ericxie.travel_risk_api.repository;
 
-import com.ericxie.travel_risk_api.model.Trip;
+import com.ericxie.travel_risk_api.model.trip.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
