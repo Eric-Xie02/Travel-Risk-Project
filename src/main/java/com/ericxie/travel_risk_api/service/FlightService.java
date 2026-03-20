@@ -35,6 +35,8 @@ public class FlightService {
         List<String> flightIataCodes = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
+        String previousArrIata = null;
+
         for (int i = 0; i < flightNumbers.size(); i++) {
             String flightNumber = flightNumbers.get(i).replace(" ", "").toUpperCase();
             String url = "https://airlabs.co/api/v9/flight?flight_iata=" + flightNumber + "&api_key=" + key;
@@ -62,6 +64,13 @@ public class FlightService {
                 if (i < flightNumbers.size() - 1) {
                     layoverAirports.add(flight.getArrIata());
                 }
+
+                // add departure airport if it differs from previous flight's arrival (ground transfer)
+                if (i > 0 && previousArrIata != null && !flight.getDepIata().equals(previousArrIata)) {
+                    layoverAirports.add(flight.getDepIata());
+                }
+
+                previousArrIata = flight.getArrIata();
 
             } catch (Exception e) {
                 System.err.println("Failed to fetch flight: " + e.getMessage());
