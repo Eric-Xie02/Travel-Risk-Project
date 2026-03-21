@@ -37,7 +37,7 @@ public class NewsController {
 
         Trip trip = tripService.getTripById(tripId, user);
 
-        return ResponseEntity.ok(newsService.getTripNews(trip));
+        return ResponseEntity.ok(newsService.getTripNews(trip, NewsService.DEFAULT_NEWS_DAYS));
     }
 
 }

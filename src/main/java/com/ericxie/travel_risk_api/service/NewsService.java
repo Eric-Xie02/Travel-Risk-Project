@@ -20,25 +20,26 @@ public class NewsService {
     private String key;
     private final TripService tripService;
     private final RestClient restClient;
+    public static final int DEFAULT_NEWS_DAYS = 28;
 
     public NewsService(TripService tripService) {
         this.tripService = tripService;
         this.restClient = RestClient.create();
     }
 
-    public List<NewsArticle> getTripNews(Trip trip) {
+    public List<NewsArticle> getTripNews(Trip trip, int days) {
 
         List<NewsArticle> newsArticles = new ArrayList<>();
         List<String> countryNames = tripService.getCountryNames(trip);
 
         for (String countryName : countryNames) {
-            newsArticles.addAll(getCountryNews(countryName));
+            newsArticles.addAll(getCountryNews(countryName, days));
         }
 
         return newsArticles;
     }
 
-    public List<NewsArticle> getCountryNews(String countryName) {
+    public List<NewsArticle> getCountryNews(String countryName, int days) {
 
         List<NewsArticle> newsArticles = new ArrayList<>();
 
@@ -48,7 +49,7 @@ public class NewsService {
         List<String> keywords = List.of("travel", "airline", "airport", "tourist", "flight", "visa");
         String keywordsParam = String.join(" OR ", keywords);
 
-        LocalDate fromDate = LocalDate.now().minusDays(28);
+        LocalDate fromDate = LocalDate.now().minusDays(days);
         int pageSize = 5;
 
         String url = "https://newsapi.org/v2/everything?"
