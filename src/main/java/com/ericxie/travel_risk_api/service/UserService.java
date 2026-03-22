@@ -1,6 +1,7 @@
 package com.ericxie.travel_risk_api.service;
 
 import com.ericxie.travel_risk_api.exception.InvalidCredentialsException;
+import com.ericxie.travel_risk_api.exception.ResourceNotFoundException;
 import com.ericxie.travel_risk_api.exception.UsernameAlreadyExistsException;
 import com.ericxie.travel_risk_api.model.auth.AuthResponse;
 import com.ericxie.travel_risk_api.model.auth.LoginRequest;
@@ -81,5 +82,17 @@ public class UserService implements UserDetailsService {
                 .password(user.getHashedPassword())
                 .authorities("USER")
                 .build();
+    }
+
+    public AuthResponse getUserInfo(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        AuthResponse response = new AuthResponse();
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setUserId(user.getId());
+        return response;
     }
 }
